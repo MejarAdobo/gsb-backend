@@ -1,22 +1,20 @@
 {
   "name": "server",
-  "type": "module",
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+    "dev": "bun run --hot src/index.ts"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^1.1.0",
     "axios": "^1.16.0",
     "cheerio": "^1.2.0",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
-    "hono": "^4.12.18"
+    "hono": "^4.12.18",
+    "pg": "^8.20.0"
   },
   "devDependencies": {
+    "@types/bun": "latest",
+    "@types/pg": "^8.20.0",
     "drizzle-kit": "^0.31.10",
-    "tsx": "^4.21.0",
-    "wrangler": "^4.17.0"
+    "tsx": "^4.21.0"
   }
 }
