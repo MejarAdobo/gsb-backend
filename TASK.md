@@ -3,3 +3,4 @@
 - Have a helper function that ensure that hourlyData that is over a day old is deleted
 - Work on scraping the website (weather underground website)
 - add a cmd do crud to stations
+- make some config file for changing time zone and other stuff

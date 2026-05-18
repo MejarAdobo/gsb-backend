@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { honoConfig } from "@configs/hono.config.ts";
+import { honoConfig } from "@configs";
 
 const app = new Hono();
 

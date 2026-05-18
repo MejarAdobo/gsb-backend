@@ -65,7 +65,6 @@ export const dailyDataTable = pgTable("daily_data", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   stationId: integer()
     .notNull()
-    .unique()
     .references(() => stationsTable.id),
   recordedAt: timestamp().notNull(),
   weatherStatus: weatherStatusEnum("weather_status").notNull().default("none"),
