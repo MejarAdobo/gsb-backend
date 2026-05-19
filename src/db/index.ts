@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import { dbConfig } from "@configs";
-import { relations } from "./schema";
+import { relations } from "./relations";
 
 const db = drizzle(dbConfig.connectionString!, { relations });
 
