@@ -1,4 +1,4 @@
-import { jsonb, integer, boolean, pgTable, varchar, timestamp, pgEnum } from "drizzle-orm/pg-core";
+import { jsonb, integer, boolean, pgTable, varchar, timestamp, pgEnum, index } from "drizzle-orm/pg-core";
 import { defineRelations } from "drizzle-orm";
 
 // enums
@@ -22,53 +22,73 @@ export const stations = pgTable("stations", {
 });
 
 // goldstars
-export const goldStars = pgTable("goldstars", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  stationId: integer("stationId"),
-  totalGoldStars: integer().notNull().default(0),
-  totalYearlyGoldStars: integer().notNull().default(0),
-  createdAt: timestamp().notNull().defaultNow(),
-});
+export const goldStars = pgTable(
+  "goldstars",
+  {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    stationId: integer("stationId"),
+    totalGoldStars: integer().notNull().default(0),
+    totalYearlyGoldStars: integer().notNull().default(0),
+    createdAt: timestamp().notNull().defaultNow(),
+  },
+  (table) => [index("gold_stars_station_id_idx").on(table.stationId)],
+);
 
 // streaks
-export const streaks = pgTable("streaks", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  stationId: integer("stationId"),
-  lastDaySinceGoldStar: timestamp(),
-  longestHotStreak: integer().notNull().default(0),
-  longestHotYearlyStreak: integer().notNull().default(0),
-  currentStreak: integer().notNull().default(0),
-  longestColdStreak: integer().notNull().default(0),
-  longestColdYearlyStreak: integer().notNull().default(0),
-  createdAt: timestamp().notNull().defaultNow(),
-});
+export const streaks = pgTable(
+  "streaks",
+  {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    stationId: integer("stationId"),
+    lastDaySinceGoldStar: timestamp(),
+    longestHotStreak: integer().notNull().default(0),
+    longestHotYearlyStreak: integer().notNull().default(0),
+    currentStreak: integer().notNull().default(0),
+    longestColdStreak: integer().notNull().default(0),
+    longestColdYearlyStreak: integer().notNull().default(0),
+    createdAt: timestamp().notNull().defaultNow(),
+  },
+  (table) => [index("streaks_station_id_idx").on(table.stationId)],
+);
 
 // hourly data
-export const hourlyData = pgTable("hourly_data", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  stationId: integer("stationId"),
-  recordedAt: timestamp().notNull(),
-  weatherData: jsonb().notNull(),
-  hasGoldStar: boolean().notNull().default(false),
-});
+export const hourlyData = pgTable(
+  "hourly_data",
+  {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    stationId: integer("stationId"),
+    recordedAt: timestamp().notNull(),
+    weatherData: jsonb().notNull(),
+    hasGoldStar: boolean().notNull().default(false),
+  },
+  (table) => [index("hourly_data_station_id_idx").on(table.stationId)],
+);
 
 // daily data
-export const dailyData = pgTable("daily_data", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  stationId: integer("stationId"),
-  recordedAt: timestamp().notNull(),
-  weatherStatus: weatherStatusEnum("weather_status").notNull().default("none"),
-});
+export const dailyData = pgTable(
+  "daily_data",
+  {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    stationId: integer("stationId"),
+    recordedAt: timestamp().notNull(),
+    weatherStatus: weatherStatusEnum("weather_status").notNull().default("none"),
+  },
+  (table) => [index("daily_data_station_id_idx").on(table.stationId)],
+);
 
 // award
-export const awards = pgTable("awards", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  title: varchar().notNull(),
-  year: integer().notNull(),
-  awardType: awardTypeEnum("award_type").notNull(),
-  stationId: integer("stationId"),
-  createdAt: timestamp().notNull().defaultNow(),
-});
+export const awards = pgTable(
+  "awards",
+  {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    title: varchar().notNull(),
+    year: integer().notNull(),
+    awardType: awardTypeEnum("award_type").notNull(),
+    stationId: integer("stationId"),
+    createdAt: timestamp().notNull().defaultNow(),
+  },
+  (table) => [index("awards_station_id_idx").on(table.stationId)],
+);
 
 // relationa
 export const relations = defineRelations({ stations, goldStars, streaks, hourlyData, dailyData, awards }, (r) => ({
