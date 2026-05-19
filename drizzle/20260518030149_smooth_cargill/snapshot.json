@@ -2,28 +2,16 @@
   "version": "8",
   "dialect": "postgres",
   "id": "f233aa89-c85e-4670-9224-d9fe3a4528d9",
-  "prevIds": [
-    "00000000-0000-0000-0000-000000000000"
-  ],
+  "prevIds": ["00000000-0000-0000-0000-000000000000"],
   "ddl": [
     {
-      "values": [
-        "hot_streak",
-        "cold_streak",
-        "most_gold_star",
-        "least_gold_star"
-      ],
+      "values": ["hot_streak", "cold_streak", "most_gold_star", "least_gold_star"],
       "name": "award_type",
       "entityType": "enums",
       "schema": "public"
     },
     {
-      "values": [
-        "gain",
-        "lose",
-        "maintain",
-        "none"
-      ],
+      "values": ["gain", "lose", "maintain", "none"],
       "name": "weather_status",
       "entityType": "enums",
       "schema": "public"
@@ -616,14 +604,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "stationId"
-      ],
+      "columns": ["stationId"],
       "schemaTo": "public",
       "tableTo": "stations",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "NO ACTION",
       "name": "awards_stationId_stations_id_fkey",
@@ -633,14 +617,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "stationId"
-      ],
+      "columns": ["stationId"],
       "schemaTo": "public",
       "tableTo": "stations",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "NO ACTION",
       "name": "daily_data_stationId_stations_id_fkey",
@@ -650,14 +630,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "stationId"
-      ],
+      "columns": ["stationId"],
       "schemaTo": "public",
       "tableTo": "stations",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "NO ACTION",
       "name": "goldstars_stationId_stations_id_fkey",
@@ -667,14 +643,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "stationId"
-      ],
+      "columns": ["stationId"],
       "schemaTo": "public",
       "tableTo": "stations",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "NO ACTION",
       "name": "hourly_data_stationId_stations_id_fkey",
@@ -684,14 +656,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "stationId"
-      ],
+      "columns": ["stationId"],
       "schemaTo": "public",
       "tableTo": "stations",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "NO ACTION",
       "name": "streaks_stationId_stations_id_fkey",
@@ -700,9 +668,7 @@
       "table": "streaks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "awards_pkey",
       "schema": "public",
@@ -710,9 +676,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "daily_data_pkey",
       "schema": "public",
@@ -720,9 +684,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "goldstars_pkey",
       "schema": "public",
@@ -730,9 +692,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "hourly_data_pkey",
       "schema": "public",
@@ -740,9 +700,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "stations_pkey",
       "schema": "public",
@@ -750,9 +708,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "streaks_pkey",
       "schema": "public",
@@ -760,9 +716,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "users_pkey",
       "schema": "public",
@@ -771,9 +725,7 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "stationId"
-      ],
+      "columns": ["stationId"],
       "nullsNotDistinct": false,
       "name": "goldstars_stationId_key",
       "schema": "public",
@@ -782,9 +734,7 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "stationId"
-      ],
+      "columns": ["stationId"],
       "nullsNotDistinct": false,
       "name": "hourly_data_stationId_key",
       "schema": "public",
@@ -793,9 +743,7 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "wuId"
-      ],
+      "columns": ["wuId"],
       "nullsNotDistinct": false,
       "name": "stations_wuId_key",
       "schema": "public",
@@ -804,9 +752,7 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "stationId"
-      ],
+      "columns": ["stationId"],
       "nullsNotDistinct": false,
       "name": "streaks_stationId_key",
       "schema": "public",

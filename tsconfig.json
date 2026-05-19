@@ -18,7 +18,7 @@
       "@routes/*": ["./src/routes/*"],
       "@services/*": ["./src/services/*"],
       "@db": ["./src/db"],
-      "@utils/*": ["./src/utils/*"],
-    },
-  },
+      "@utils/*": ["./src/utils/*"]
+    }
+  }
 }

@@ -1,5 +1,4 @@
 import { jsonb, integer, boolean, pgTable, varchar, timestamp, pgEnum, index } from "drizzle-orm/pg-core";
-import { defineRelations } from "drizzle-orm";
 
 // enums
 export const weatherStatusEnum = pgEnum("weather_status", ["gain", "lose", "maintain", "none"]);
@@ -89,42 +88,3 @@ export const awards = pgTable(
   },
   (table) => [index("awards_station_id_idx").on(table.stationId)],
 );
-
-// relationa
-export const relations = defineRelations({ stations, goldStars, streaks, hourlyData, dailyData, awards }, (r) => ({
-  goldStars: {
-    author: r.one.stations({
-      from: r.goldStars.stationId,
-      to: r.stations.id,
-    }),
-  },
-  streaks: {
-    author: r.one.stations({
-      from: r.streaks.stationId,
-      to: r.stations.id,
-    }),
-  },
-  hourlyData: {
-    author: r.one.stations({
-      from: r.hourlyData.stationId,
-      to: r.stations.id,
-    }),
-  },
-  dailyData: {
-    author: r.one.stations({
-      from: r.dailyData.stationId,
-      to: r.stations.id,
-    }),
-  },
-  awards: {
-    author: r.one.stations({
-      from: r.awards.stationId,
-      to: r.stations.id,
-    }),
-  },
-  stations: {
-    hourlyData: r.many.hourlyData(),
-    dailyData: r.many.dailyData(),
-    awards: r.many.awards(),
-  },
-}));
