@@ -15,7 +15,8 @@
       "@configs": ["./src/configs"],
       "@routes": ["./src/routes"],
       "@services": ["./src/services"],
-      "@db": ["./src/db"]
-    }
-  }
+      "@db": ["./src/db"],
+      "@db/*": ["./src/db/*"],
+    },
+  },
 }

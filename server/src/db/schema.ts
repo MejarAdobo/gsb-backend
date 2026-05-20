@@ -1,22 +1,8 @@
-import {
-  jsonb,
-  integer,
-  boolean,
-  pgTable,
-  varchar,
-  timestamp,
-  pgEnum,
-  index,
-} from "drizzle-orm/pg-core";
+import { jsonb, integer, boolean, pgTable, varchar, timestamp, pgEnum, index } from "drizzle-orm/pg-core";
 
 // enums
-export const weatherStatusEnum = pgEnum("weather_status", ["gain", "lose", "maintain", "none"]);
-export const awardTypeEnum = pgEnum("award_type", [
-  "hot_streak",
-  "cold_streak",
-  "most_gold_star",
-  "least_gold_star",
-]);
+export const goldStarStatusEnum = pgEnum("gold_star_status", ["gain", "lose", "maintain", "none"]);
+export const awardTypeEnum = pgEnum("award_type", ["hot_streak", "cold_streak", "most_gold_star", "least_gold_star"]);
 
 // users
 export const users = pgTable("users", {
@@ -70,9 +56,9 @@ export const hourlyData = pgTable(
   {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     stationId: integer("stationId"),
-    recordedAt: timestamp().notNull(),
     weatherData: jsonb().notNull(),
     hasGoldStar: boolean().notNull().default(false),
+    recordedAt: timestamp().notNull().defaultNow(),
   },
   (table) => [index("hourly_data_station_id_idx").on(table.stationId)],
 );
@@ -83,8 +69,8 @@ export const dailyData = pgTable(
   {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     stationId: integer("stationId"),
-    recordedAt: timestamp().notNull(),
-    weatherStatus: weatherStatusEnum("weather_status").notNull().default("none"),
+    goldStarStatus: goldStarStatusEnum("gold_star_status").notNull().default("none"),
+    recordedAt: timestamp().notNull().defaultNow(),
   },
   (table) => [index("daily_data_station_id_idx").on(table.stationId)],
 );
