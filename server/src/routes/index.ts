@@ -10,9 +10,9 @@ const api = new Hono();
 
 api.route("/awards", AwardsRoute);
 api.route("/stations", StationsRoute);
-api.route("/dailyData", DailyDataRoute);
-api.route("/goldStars", GoldStarsRoute);
-api.route("/hourlyData", HourlyDataRoute);
+api.route("/dailydata", DailyDataRoute);
+api.route("/goldstars", GoldStarsRoute);
+api.route("/hourlydata", HourlyDataRoute);
 api.route("/streaks", StreaksRoute);
 
 //  error handler

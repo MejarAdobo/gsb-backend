@@ -1,8 +1,22 @@
-import { jsonb, integer, boolean, pgTable, varchar, timestamp, pgEnum, index } from "drizzle-orm/pg-core";
+import {
+  jsonb,
+  integer,
+  boolean,
+  pgTable,
+  varchar,
+  timestamp,
+  pgEnum,
+  index,
+} from "drizzle-orm/pg-core";
 
 // enums
 export const weatherStatusEnum = pgEnum("weather_status", ["gain", "lose", "maintain", "none"]);
-export const awardTypeEnum = pgEnum("award_type", ["hot_streak", "cold_streak", "most_gold_star", "least_gold_star"]);
+export const awardTypeEnum = pgEnum("award_type", [
+  "hot_streak",
+  "cold_streak",
+  "most_gold_star",
+  "least_gold_star",
+]);
 
 // users
 export const users = pgTable("users", {

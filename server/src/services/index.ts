@@ -5,4 +5,11 @@ import hourlyDataService from "./hourlyData.service";
 import stationsService from "./stations.service";
 import streaksService from "./streaks.service";
 
-export { awardsService, dailyDataService, goldStarsService, hourlyDataService, stationsService, streaksService };
+export {
+  awardsService,
+  dailyDataService,
+  goldStarsService,
+  hourlyDataService,
+  stationsService,
+  streaksService,
+};

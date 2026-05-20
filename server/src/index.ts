@@ -1,7 +1,8 @@
 import { Hono } from "hono";
-import { honoConfig } from "@configs";
+import { cors } from "hono/cors";
 import { rateLimiter } from "hono-rate-limiter";
 import { api } from "@routes";
+import { honoConfig } from "@configs";
 
 const app = new Hono();
 
@@ -17,6 +18,12 @@ app.use(
   }),
 );
 
+// cors
+app.use("*", cors());
+
+// api routes
+app.route("/api", api);
+
 // not found
 app.notFound((c) => {
   return c.json(
@@ -28,9 +35,6 @@ app.notFound((c) => {
     404,
   );
 });
-
-// api routes
-app.route("/", api);
 
 export default {
   port: honoConfig.port,
