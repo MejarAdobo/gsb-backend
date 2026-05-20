@@ -13,7 +13,6 @@
     "paths": {
       "@/*": ["./src/*"],
       "@configs": ["./src/configs"],
-      "@middlewares/*": ["./src/middlewares/*"],
       "@routes": ["./src/routes"],
       "@services": ["./src/services"],
       "@db": ["./src/db"],
