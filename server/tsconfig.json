@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["@types/bun"],
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@configs": ["./src/configs"],
+      "@middlewares/*": ["./src/middlewares/*"],
+      "@routes": ["./src/routes"],
+      "@services": ["./src/services"],
+      "@db": ["./src/db"],
+    },
+  },
+}
