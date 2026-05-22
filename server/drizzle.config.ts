@@ -8,4 +8,5 @@ export default defineConfig({
   dbCredentials: {
     url: dbConfig.connectionString,
   },
+  schemaFilter: ["public"],
 });

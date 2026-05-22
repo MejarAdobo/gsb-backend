@@ -1,4 +1,4 @@
-import { jsonb, integer, boolean, pgTable, varchar, timestamp, pgEnum, index } from "drizzle-orm/pg-core";
+import { jsonb, integer, boolean, pgTable, varchar, timestamp, pgEnum, date, index } from "drizzle-orm/pg-core";
 
 // enums
 export const goldStarStatusEnum = pgEnum("gold_star_status", ["gain", "lose", "maintain", "none"]);
@@ -9,7 +9,7 @@ export const users = pgTable("users", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 255 }).notNull(),
   password: varchar({ length: 255 }).notNull(),
-  createdAt: timestamp().notNull().defaultNow(),
+  createdAt: date().notNull().defaultNow(),
 });
 
 // stations
@@ -17,18 +17,20 @@ export const stations = pgTable("stations", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 255 }).notNull(),
   wuId: varchar({ length: 255 }).notNull().unique(),
-  createdAt: timestamp().notNull().defaultNow(),
+  createdAt: date().notNull().defaultNow(),
 });
 
 // goldstars
 export const goldStars = pgTable(
   "goldstars",
   {
-    id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    stationId: integer("stationId"),
+    stationId: integer("stationId")
+      .primaryKey()
+      .references(() => stations.id, { onDelete: "cascade" }),
     totalGoldStars: integer().notNull().default(0),
     totalYearlyGoldStars: integer().notNull().default(0),
-    createdAt: timestamp().notNull().defaultNow(),
+    lastDaySinceGoldStar: date(),
+    createdAt: date().notNull().defaultNow(),
   },
   (table) => [index("gold_stars_station_id_idx").on(table.stationId)],
 );
@@ -37,12 +39,12 @@ export const goldStars = pgTable(
 export const streaks = pgTable(
   "streaks",
   {
-    id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    stationId: integer("stationId"),
-    lastDaySinceGoldStar: timestamp(),
+    stationId: integer("stationId")
+      .primaryKey()
+      .references(() => stations.id, { onDelete: "cascade" }),
+    currentStreak: integer().notNull().default(0),
     longestHotStreak: integer().notNull().default(0),
     longestHotYearlyStreak: integer().notNull().default(0),
-    currentStreak: integer().notNull().default(0),
     longestColdStreak: integer().notNull().default(0),
     longestColdYearlyStreak: integer().notNull().default(0),
     createdAt: timestamp().notNull().defaultNow(),
@@ -55,7 +57,7 @@ export const hourlyData = pgTable(
   "hourly_data",
   {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    stationId: integer("stationId"),
+    stationId: integer("stationId").references(() => stations.id, { onDelete: "cascade" }),
     weatherData: jsonb().notNull(),
     hasGoldStar: boolean().notNull().default(false),
     recordedAt: timestamp().notNull().defaultNow(),
@@ -68,9 +70,9 @@ export const dailyData = pgTable(
   "daily_data",
   {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    stationId: integer("stationId"),
+    stationId: integer("stationId").references(() => stations.id, { onDelete: "cascade" }),
     goldStarStatus: goldStarStatusEnum("gold_star_status").notNull().default("none"),
-    recordedAt: timestamp().notNull().defaultNow(),
+    recordedAt: date().notNull().defaultNow(),
   },
   (table) => [index("daily_data_station_id_idx").on(table.stationId)],
 );
@@ -83,8 +85,8 @@ export const awards = pgTable(
     title: varchar().notNull(),
     year: integer().notNull(),
     awardType: awardTypeEnum("award_type").notNull(),
-    stationId: integer("stationId"),
-    createdAt: timestamp().notNull().defaultNow(),
+    stationId: integer("stationId").references(() => stations.id, { onDelete: "cascade" }),
+    createdAt: date().notNull().defaultNow(),
   },
   (table) => [index("awards_station_id_idx").on(table.stationId)],
 );
