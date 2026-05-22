@@ -1,13 +1,15 @@
+import { Hono } from "hono";
+
 import AwardsRoute from "./awards.route.ts";
-import StationsRoute from "./stations.route.ts";
 import DailyDataRoute from "./dailyData.route.ts";
 import GoldStarsRoute from "./goldStars.route.ts";
 import HourlyDataRoute from "./hourlyData.route.ts";
+import StationsRoute from "./stations.route.ts";
 import StreaksRoute from "./streaks.route.ts";
-import { Hono } from "hono";
 
 const api = new Hono();
 
+// routes
 api.route("/awards", AwardsRoute);
 api.route("/stations", StationsRoute);
 api.route("/dailydata", DailyDataRoute);

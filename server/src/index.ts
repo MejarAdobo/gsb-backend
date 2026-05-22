@@ -1,9 +1,9 @@
-import { Hono } from "hono";
-import { cors } from "hono/cors";
-import { rateLimiter } from "hono-rate-limiter";
-import { prettyJSON } from "hono/pretty-json";
-import { api } from "@routes";
 import { honoConfig } from "@configs";
+import { api } from "@routes";
+import { Hono } from "hono";
+import { rateLimiter } from "hono-rate-limiter";
+import { cors } from "hono/cors";
+import { prettyJSON } from "hono/pretty-json";
 
 const app = new Hono();
 
@@ -20,7 +20,7 @@ app.use(
 );
 
 // cors middleware
-app.use("*", cors());
+app.use("/api/*", cors({ allowMethods: ["GET"] }));
 
 // pretty json middleware
 app.use(prettyJSON());

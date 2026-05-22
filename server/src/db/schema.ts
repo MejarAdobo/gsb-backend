@@ -72,7 +72,7 @@ export const dailyData = pgTable(
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     stationId: integer("stationId").references(() => stations.id, { onDelete: "cascade" }),
     goldStarStatus: goldStarStatusEnum("gold_star_status").notNull().default("none"),
-    recordedAt: date().notNull().defaultNow(),
+    recordedAt: date({ mode: "date" }).notNull().defaultNow(),
   },
   (table) => [index("daily_data_station_id_idx").on(table.stationId)],
 );

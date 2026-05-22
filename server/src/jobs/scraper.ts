@@ -14,7 +14,6 @@ export async function fetchHTML(url: string) {
     const resp = await axios.get(url, config);
     return resp.data;
   } catch (error) {
-    console.error(error);
-    throw error;
+    return `Failed to fetch [${url}]: ${error}`;
   }
 }

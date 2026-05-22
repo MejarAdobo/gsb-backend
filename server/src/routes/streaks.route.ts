@@ -5,9 +5,9 @@ import { HTTPException } from "hono/http-exception";
 // id regex
 const idRegex = /^[0-9]+$/;
 
-const streak = new Hono();
+const streakRouter = new Hono();
 
-streak.get("/", async (c) => {
+streakRouter.get("/", async (c) => {
   try {
     const streaks = await streaksService.getAll();
 
@@ -26,7 +26,7 @@ streak.get("/", async (c) => {
   }
 });
 
-streak.get("/station/:id", async (c) => {
+streakRouter.get("/station/:id", async (c) => {
   try {
     const id = Number(c.req.param("id"));
 
@@ -57,7 +57,7 @@ streak.get("/station/:id", async (c) => {
   }
 });
 
-streak.get("/:id", async (c) => {
+streakRouter.get("/:id", async (c) => {
   try {
     const id = Number(c.req.param("id"));
 
@@ -88,4 +88,4 @@ streak.get("/:id", async (c) => {
   }
 });
 
-export default streak;
+export default streakRouter;

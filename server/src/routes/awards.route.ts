@@ -5,9 +5,9 @@ import { HTTPException } from "hono/http-exception";
 // id regex
 const idRegex = /^[0-9]+$/;
 
-const award = new Hono();
+const awardRouter = new Hono();
 
-award.get("/", async (c) => {
+awardRouter.get("/", async (c) => {
   try {
     const awards = await awardsService.getAll();
 
@@ -26,7 +26,7 @@ award.get("/", async (c) => {
   }
 });
 
-award.get("/station/:id", async (c) => {
+awardRouter.get("/station/:id", async (c) => {
   try {
     const id = Number(c.req.param("id"));
 
@@ -57,7 +57,7 @@ award.get("/station/:id", async (c) => {
   }
 });
 
-award.get("/:id", async (c) => {
+awardRouter.get("/:id", async (c) => {
   try {
     const id = Number(c.req.param("id"));
 
@@ -88,4 +88,4 @@ award.get("/:id", async (c) => {
   }
 });
 
-export default award;
+export default awardRouter;

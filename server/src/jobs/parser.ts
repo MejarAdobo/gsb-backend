@@ -48,12 +48,12 @@ export async function parseHTML(html: string) {
     temp: tempText,
     wind: windText,
     gust: gustText,
-    winDir: winDirText,
+    windDir: winDirText,
     dew: dewText,
     precipRate: precipRateText,
     precipAccum: precipAccumText,
     pressure: pressureText,
     humidity: humidityText,
-    goldStar: haveGoldStar,
+    hasGoldStar: haveGoldStar,
   };
 }

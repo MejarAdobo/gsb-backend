@@ -1,6 +1,5 @@
-import { eq } from "drizzle-orm";
-import { hourlyData, dailyData, streaks, goldStars } from "@db/schema";
 import { db } from "@db";
+import { hourlyData, dailyData } from "@db/schema";
 
 type ParsedData = {
   temp: string;
@@ -15,7 +14,7 @@ type ParsedData = {
   hasGoldStar: boolean;
 };
 
-type GoldStarStatus = "gain" | "lose" | "maintain" | "none";
+export type GoldStarStatus = "gain" | "lose" | "maintain" | "none";
 
 // send hourly data into the database
 export async function sendHourlyData(data: ParsedData, stationId: number) {
@@ -32,42 +31,4 @@ export async function sendDailyData(goldStarStatus: GoldStarStatus, stationId: n
     stationId: stationId,
     goldStarStatus: goldStarStatus,
   });
-}
-
-// update a station streak
-export async function updateStreak(
-  stationId: number,
-  currentStreak: number,
-  longestHotStreak: number,
-  longestHotYearlyStreak: number,
-  longestColdStreak: number,
-  longestColdYearlyStreak: number,
-) {
-  return await db
-    .update(streaks)
-    .set({
-      currentStreak: currentStreak,
-      longestHotStreak: longestHotStreak,
-      longestHotYearlyStreak: longestHotYearlyStreak,
-      longestColdStreak: longestColdStreak,
-      longestColdYearlyStreak: longestColdYearlyStreak,
-    })
-    .where(eq(streaks.stationId, stationId));
-}
-
-// update a station gold stars stat
-export async function updateGoldStar(
-  stationId: number,
-  totalGoldStars: number,
-  totalYearlyGoldStars: number,
-  lastDaySinceGoldStar: Date,
-) {
-  return await db
-    .update(goldStars)
-    .set({
-      totalGoldStars: totalGoldStars,
-      totalYearlyGoldStars: totalYearlyGoldStars,
-      lastDaySinceGoldStar: lastDaySinceGoldStar.toISOString(),
-    })
-    .where(eq(goldStars.stationId, stationId));
 }
