@@ -1,60 +1,117 @@
 import * as cheerio from "cheerio";
 
+// Have DeepSeek V4 refactor the parsing to work since I do not like parsing weather underground website due to whatever Angular do with their framework
+
+type ApiEntry = {
+  b?: Record<string, unknown>;
+};
+
+type Observation = {
+  stationID?: string;
+  winddirAvg?: number;
+  humidityAvg?: number;
+  imperial?: Record<string, number | null>;
+};
+
+function isApiEntry(v: unknown): v is ApiEntry {
+  return !!v && typeof v === "object";
+}
+
+function isObservation(v: unknown): v is Observation {
+  return !!v && typeof v === "object";
+}
+
 export async function parseHTML(html: string) {
   const $ = cheerio.load(html);
-  // get all the current condition
-  // temp
-  const tempSpan = $("span.wu-unit-temperature");
-  const tempText = tempSpan.find("span.wu-value").text();
+  const scriptTag = $("#app-root-state").html();
 
-  // wind
-  const windDiv = $("div.wind-gust");
-  const windText = windDiv.find("span.test-false").text();
-  const gustText = windDiv.find("span.wu-unit-speed").text();
-  const winDirText = $("div.wind-dial__container").text();
-
-  const weatherSummary = $("div.weather__summary");
-
-  // dewpoint
-  const dewSpan = weatherSummary.find("span.wu-unit-temperature");
-  const dewText = dewSpan.find("span.wu-value").text();
-
-  // precip rate
-  const precipRateSpan = weatherSummary.find("span.wu-unit-rainRate");
-  const precipRateText = precipRateSpan.find("span.wu-value").text();
-
-  // precip accum
-  const precipAccumSpan = weatherSummary.find("span.wu-unit-rain");
-  const precipAccumText = precipAccumSpan.find("span.wu-value").text();
-
-  // pressure
-  const pressureSpan = weatherSummary.find("span.wu-unit-pressure");
-  const pressureText = pressureSpan.find("span.wu-value").text();
-
-  // humidity
-  const humiditySpan = weatherSummary.find("span.wu-unit-humidity");
-  const humidityText = humiditySpan.find("span.wu-value").text();
-
-  // gold star
-  let haveGoldStar = false;
-
-  if ($("img.goldstar-station").length > 0) {
-    haveGoldStar = true;
+  if (!scriptTag) {
+    console.log("app-root-state script tag not found");
+    return {
+      temp: "",
+      wind: "",
+      gust: "",
+      windDir: "",
+      dew: "",
+      precipRate: "",
+      precipAccum: "",
+      pressure: "",
+      humidity: "",
+      hasGoldStar: false,
+    };
   }
-  console.log(
-    `temp: ${tempText}, wind: ${windText}, gust: ${gustText}, windDir: ${winDirText}, dew: ${dewText}, precipRate: ${precipRateText}, precipAccum: ${precipAccumText}, pressure: ${pressureText}, humidity: ${humidityText}, hasGoldStar: ${haveGoldStar}`,
-  );
+
+  let state: Record<string, unknown>;
+  try {
+    state = JSON.parse(scriptTag);
+  } catch {
+    console.log("failed to parse app-root-state JSON");
+    return {
+      temp: "",
+      wind: "",
+      gust: "",
+      windDir: "",
+      dew: "",
+      precipRate: "",
+      precipAccum: "",
+      pressure: "",
+      humidity: "",
+      hasGoldStar: false,
+    };
+  }
+
+  let haveGoldStar = false;
+  for (const key of Object.keys(state)) {
+    const entry = state[key];
+    if (isApiEntry(entry) && entry.b && "goldStar" in entry.b) {
+      haveGoldStar = entry.b.goldStar === true;
+      break;
+    }
+  }
+
+  let temp = "";
+  let wind = "";
+  let gust = "";
+  let windDir = "";
+  let dew = "";
+  let precipRate = "";
+  let precipAccum = "";
+  let pressure = "";
+  let humidity = "";
+
+  for (const key of Object.keys(state)) {
+    const entry = state[key];
+    if (isApiEntry(entry)) {
+      const observations = entry.b?.observations;
+      if (Array.isArray(observations) && observations.length > 0) {
+        const obs = observations[observations.length - 1];
+        if (isObservation(obs)) {
+          const imp = obs.imperial ?? {};
+          temp = imp.tempAvg !== null ? String(imp.tempAvg) : "";
+          wind = imp.windspeedAvg !== null ? String(imp.windspeedAvg) : "";
+          gust = imp.windgustAvg !== null ? String(imp.windgustAvg) : "";
+          windDir = obs.winddirAvg !== null ? String(obs.winddirAvg) : "";
+          dew = imp.dewptAvg !== null ? String(imp.dewptAvg) : "";
+          precipRate = imp.precipRate !== null ? String(imp.precipRate) : "";
+          precipAccum = imp.precipTotal !== null ? String(imp.precipTotal) : "";
+          pressure = imp.pressureMax !== null ? String(imp.pressureMax) : "";
+          humidity = obs.humidityAvg !== null ? String(obs.humidityAvg) : "";
+          break;
+        }
+      }
+    }
+  }
 
   return {
-    temp: tempText,
-    wind: windText,
-    gust: gustText,
-    windDir: winDirText,
-    dew: dewText,
-    precipRate: precipRateText,
-    precipAccum: precipAccumText,
-    pressure: pressureText,
-    humidity: humidityText,
+    temp,
+    wind,
+    gust,
+    windDir,
+    dew,
+    precipRate,
+    precipAccum,
+    pressure,
+    humidity,
     hasGoldStar: haveGoldStar,
   };
 }

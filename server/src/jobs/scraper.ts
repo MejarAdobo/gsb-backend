@@ -13,8 +13,6 @@ export async function fetchHTML(url: string) {
 
     const resp = await axios.get(url, config);
 
-    console.log(resp.data);
-
     return resp.data;
   } catch (error) {
     return `Failed to fetch [${url}]: ${error}`;
