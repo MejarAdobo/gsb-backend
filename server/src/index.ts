@@ -35,6 +35,11 @@ app.use(prettyJSON());
 // api routes
 app.route("/api", api);
 
+// render health checks
+app.get("/healthz", (c) => {
+  return c.text(":)", 200);
+});
+
 // not found
 app.notFound((c) => {
   return c.json(
