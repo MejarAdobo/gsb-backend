@@ -14,6 +14,11 @@ Bun.cron("55 23 * * * ", updateStationsGoldStar);
 
 const app = new Hono();
 
+// render health checks
+app.get("/healthz", (c) => {
+  return c.text(":)", 200);
+});
+
 // rate-limiter middleware
 app.use(
   rateLimiter({
@@ -34,11 +39,6 @@ app.use(prettyJSON());
 
 // api routes
 app.route("/api", api);
-
-// render health checks
-app.get("/healthz", (c) => {
-  return c.text(":)", 200);
-});
 
 // not found
 app.notFound((c) => {
