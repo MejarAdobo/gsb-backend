@@ -6,14 +6,14 @@ import { getParsedData, grantStatus, changeStreak, changeGoldStar } from "./help
 import { sendHourlyData, sendDailyData } from "./sendData";
 import { updateGoldStar, updateStreak } from "./updateData";
 
-// get all stations
-const stations = await db.query.stations.findMany();
-
 // gather hourly data of all stations
 export async function gatherHourlyData() {
+  // each func has this now since this used to be a global scope but it cost cache issue
+  const stations = await db.query.stations.findMany();
   if (stations.length === 0) return;
 
-  stations.forEach(async (station) => {
+  // remember that foreach is not nice with async/await so I got Gemini to make me a promise all since Im lazy
+  const tasks = stations.map(async (station) => {
     const parsedData = await getParsedData(station.wuId);
 
     if (parsedData) {
@@ -22,13 +22,15 @@ export async function gatherHourlyData() {
 
     console.log(`Station [${station.name}] has their hourly data sent`);
   });
+  await Promise.all(tasks);
 }
 
 // gather daily data of all stations
 export async function gatherDailyData() {
+  const stations = await db.query.stations.findMany();
   if (stations.length === 0) return;
 
-  stations.forEach(async (station) => {
+  const tasks = stations.map(async (station) => {
     const parsedData = await getParsedData(station.wuId);
 
     if (parsedData) {
@@ -38,13 +40,16 @@ export async function gatherDailyData() {
 
     console.log(`Station [${station.name}] has their daily data sent`);
   });
+
+  await Promise.all(tasks);
 }
 
 // update all station's streak
 export async function updateStationsStreak() {
+  const stations = await db.query.stations.findMany();
   if (stations.length === 0) return;
 
-  stations.forEach(async (station) => {
+  const tasks = stations.map(async (station) => {
     // get the station's streak row
     // @ts-expect-error:
     const stationStreak: StreakRow = await db.query.streaks.findFirst({
@@ -71,13 +76,16 @@ export async function updateStationsStreak() {
       );
     }
   });
+
+  await Promise.all(tasks);
 }
 
 //  update all station's gold star data
 export async function updateStationsGoldStar() {
+  const stations = await db.query.stations.findMany();
   if (stations.length === 0) return;
 
-  stations.forEach(async (station) => {
+  const tasks = stations.map(async (station) => {
     // @ts-expect-error:
     const stationGoldStar: GoldStarRow = await db.query.goldStars.findFirst({
       where: {
@@ -89,11 +97,7 @@ export async function updateStationsGoldStar() {
     const parsedData = await getParsedData(station.wuId);
 
     if (parsedData) {
-      const updatedGoldStar = await changeGoldStar(
-        parsedData.hasGoldStar,
-        stationGoldStar,
-        station.id,
-      );
+      const updatedGoldStar = await changeGoldStar(parsedData.hasGoldStar, stationGoldStar, station.id);
       await updateGoldStar(
         station.id,
         updatedGoldStar.totalGoldStars,
@@ -105,4 +109,6 @@ export async function updateStationsGoldStar() {
       );
     }
   });
+
+  await Promise.all(tasks);
 }
