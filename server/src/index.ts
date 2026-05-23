@@ -1,5 +1,10 @@
 import { honoConfig } from "@configs";
-import { gatherHourlyData, gatherDailyData, updateStationsStreak, updateStationsGoldStar } from "@jobs";
+import {
+  gatherHourlyData,
+  gatherDailyData,
+  updateStationsStreak,
+  updateStationsGoldStar,
+} from "@jobs";
 import { api } from "@routes";
 import { Hono } from "hono";
 import { rateLimiter } from "hono-rate-limiter";
