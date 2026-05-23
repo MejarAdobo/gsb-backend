@@ -1,5 +1,5 @@
 import { honoConfig } from "@configs";
-import { gatherHourlyData, gatherDailyData, updateStationsStreak, updateStationsGoldStar } from "@jobs";
+import { gatherHourlyData, gatherDailyData, updateStationsStreak, updateStationsGoldStar, deleteOldHourlyData } from "@jobs";
 import { api } from "@routes";
 import { Hono } from "hono";
 import { rateLimiter } from "hono-rate-limiter";
@@ -7,9 +7,8 @@ import { cors } from "hono/cors";
 import { prettyJSON } from "hono/pretty-json";
 
 // scheduled jobs
-Bun.cron("*/1 * * * * ", updateStationsGoldStar);
-
 Bun.cron("@hourly", gatherHourlyData);
+Bun.cron("@midnight", deleteOldHourlyData);
 Bun.cron("50 23 * * * ", gatherDailyData);
 Bun.cron("55 23 * * * ", updateStationsStreak);
 Bun.cron("55 23 * * * ", updateStationsGoldStar);
