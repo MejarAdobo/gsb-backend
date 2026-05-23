@@ -120,6 +120,7 @@ export async function updateStationsGoldStar() {
 }
 
 // delete hourData record that are older than 24 hours
+// doing these so the db is not gonna be full since Im using free plan in supabase
 export async function deleteOldHourlyData() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
