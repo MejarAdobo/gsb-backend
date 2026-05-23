@@ -74,6 +74,8 @@ export async function updateStationsStreak() {
       console.log(
         `Station [${station.name}] has their streak updated: Current Streak: ${updatedStreak.currentStreak}, Longest Hot Streak: ${updatedStreak.longestHotStreak}, Longest Hot Yearly Streak: ${updatedStreak.longestHotYearlyStreak}, Longest Cold Streak: ${updatedStreak.longestColdStreak}, Longest Cold Yearly Streak: ${updatedStreak.longestColdYearlyStreak}`,
       );
+    } else {
+      console.log(`Station [${station.name}] has no data to update`);
     }
   });
 
@@ -107,6 +109,8 @@ export async function updateStationsGoldStar() {
       console.log(
         `Station [${station.name}] has their gold stars stats updated: Total Gold Stars: ${updatedGoldStar.totalGoldStars}, Total Yearly Gold Stars: ${updatedGoldStar.totalYearlyGoldStars}, Last Day Since Gold Star: ${updatedGoldStar.lastDaySinceGoldStar}`,
       );
+    } else {
+      console.log(`Station [${station.name}] has no data to update`);
     }
   });
 
