@@ -12,7 +12,8 @@
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "lint": "oxlint",
-    "lint:fix": "oxlint --fix"
+    "lint:fix": "oxlint --fix",
+    "new-station": "bun src/commands/addStation.ts"
   },
   "dependencies": {
     "axios": "^1.16.1",

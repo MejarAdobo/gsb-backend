@@ -1,31 +1,8 @@
-import {
-  jsonb,
-  integer,
-  boolean,
-  pgTable,
-  varchar,
-  timestamp,
-  pgEnum,
-  date,
-  index,
-} from "drizzle-orm/pg-core";
+import { jsonb, integer, boolean, pgTable, varchar, timestamp, pgEnum, date, index } from "drizzle-orm/pg-core";
 
 // enums
 export const goldStarStatusEnum = pgEnum("gold_star_status", ["gain", "lose", "maintain", "none"]);
-export const awardTypeEnum = pgEnum("award_type", [
-  "hot_streak",
-  "cold_streak",
-  "most_gold_star",
-  "least_gold_star",
-]);
-
-// users
-export const users = pgTable("users", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar({ length: 255 }).notNull(),
-  password: varchar({ length: 255 }).notNull(),
-  createdAt: date().notNull().defaultNow(),
-});
+export const awardTypeEnum = pgEnum("award_type", ["hot_streak", "cold_streak", "most_gold_star", "least_gold_star"]);
 
 // stations
 export const stations = pgTable("stations", {
@@ -44,7 +21,7 @@ export const goldStars = pgTable(
       .references(() => stations.id, { onDelete: "cascade" }),
     totalGoldStars: integer().notNull().default(0),
     totalYearlyGoldStars: integer().notNull().default(0),
-    lastDaySinceGoldStar: date(),
+    lastDaySinceGoldStar: date().defaultNow(),
     createdAt: date().notNull().defaultNow(),
   },
   (table) => [index("gold_stars_station_id_idx").on(table.stationId)],
