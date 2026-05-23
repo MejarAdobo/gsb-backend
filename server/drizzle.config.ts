@@ -1,5 +1,5 @@
-import { defineConfig } from "drizzle-kit";
 import { dbConfig } from "@configs";
+import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
   dialect: "postgresql",
@@ -8,4 +8,5 @@ export default defineConfig({
   dbCredentials: {
     url: dbConfig.connectionString,
   },
+  schemaFilter: ["public"],
 });

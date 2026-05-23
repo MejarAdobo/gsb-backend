@@ -13,10 +13,11 @@
     "paths": {
       "@/*": ["./src/*"],
       "@configs": ["./src/configs"],
-      "@middlewares/*": ["./src/middlewares/*"],
       "@routes": ["./src/routes"],
       "@services": ["./src/services"],
       "@db": ["./src/db"],
-    },
-  },
+      "@db/*": ["./src/db/*"],
+      "@jobs": ["./src/jobs"]
+    }
+  }
 }

@@ -1,0 +1,34 @@
+import { db } from "@db";
+import { hourlyData, dailyData } from "@db/schema";
+
+type ParsedData = {
+  temp: string;
+  wind: string;
+  gust: string;
+  windDir: string;
+  dew: string;
+  precipRate: string;
+  precipAccum: string;
+  pressure: string;
+  humidity: string;
+  hasGoldStar: boolean;
+};
+
+export type GoldStarStatus = "gain" | "lose" | "maintain" | "none";
+
+// send hourly data into the database
+export async function sendHourlyData(data: ParsedData, stationId: number) {
+  return await db.insert(hourlyData).values({
+    stationId: stationId,
+    weatherData: data,
+    hasGoldStar: data.hasGoldStar,
+  });
+}
+
+// send daily data into the database
+export async function sendDailyData(goldStarStatus: GoldStarStatus, stationId: number) {
+  return await db.insert(dailyData).values({
+    stationId: stationId,
+    goldStarStatus: goldStarStatus,
+  });
+}

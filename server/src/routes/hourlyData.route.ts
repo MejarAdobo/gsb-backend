@@ -5,9 +5,9 @@ import { HTTPException } from "hono/http-exception";
 // id regex
 const idRegex = /^[0-9]+$/;
 
-const hourlyData = new Hono();
+const hourlyDataRouter = new Hono();
 
-hourlyData.get("/", async (c) => {
+hourlyDataRouter.get("/", async (c) => {
   try {
     const hourlyData = await hourlyDataService.getAll();
 
@@ -26,7 +26,7 @@ hourlyData.get("/", async (c) => {
   }
 });
 
-hourlyData.get("/station/:id", async (c) => {
+hourlyDataRouter.get("/station/:id", async (c) => {
   try {
     const id = Number(c.req.param("id"));
 
@@ -57,7 +57,7 @@ hourlyData.get("/station/:id", async (c) => {
   }
 });
 
-hourlyData.get("/:id", async (c) => {
+hourlyDataRouter.get("/:id", async (c) => {
   try {
     const id = Number(c.req.param("id"));
 
@@ -88,4 +88,4 @@ hourlyData.get("/:id", async (c) => {
   }
 });
 
-export default hourlyData;
+export default hourlyDataRouter;
