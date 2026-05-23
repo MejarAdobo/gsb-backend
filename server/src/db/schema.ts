@@ -47,7 +47,7 @@ export const streaks = pgTable(
     longestHotYearlyStreak: integer().notNull().default(0),
     longestColdStreak: integer().notNull().default(0),
     longestColdYearlyStreak: integer().notNull().default(0),
-    createdAt: timestamp().notNull().defaultNow(),
+    createdAt: date().notNull().defaultNow(),
   },
   (table) => [index("streaks_station_id_idx").on(table.stationId)],
 );
