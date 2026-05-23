@@ -20,7 +20,10 @@ const dialouge = () => {
 const addStation = async () => {
   const { namePrompt, wuIdPrompt } = dialouge();
 
-  const [station] = await db.insert(stations).values({ name: namePrompt, wuId: wuIdPrompt }).returning({ id: stations.id });
+  const [station] = await db
+    .insert(stations)
+    .values({ name: namePrompt, wuId: wuIdPrompt })
+    .returning({ id: stations.id });
 
   // create streak and gold star row for this station
   await db.insert(goldStars).values({ stationId: station.id });

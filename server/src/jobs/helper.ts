@@ -146,7 +146,9 @@ const getTodayStatus = async (id: number) => {
 const changeGoldStar = async (hasGoldStar: boolean, goldStarRow: GoldStarRow, id: number) => {
   let totalGoldStars = goldStarRow?.totalGoldStars ?? 0;
   let totalYearlyGoldStars = goldStarRow?.totalYearlyGoldStars ?? 0;
-  let lastDaySinceGoldStar = goldStarRow?.lastDaySinceGoldStar ? new Date(goldStarRow.lastDaySinceGoldStar) : null;
+  let lastDaySinceGoldStar = goldStarRow?.lastDaySinceGoldStar
+    ? new Date(goldStarRow.lastDaySinceGoldStar)
+    : null;
   const todayStatus = await getTodayStatus(id);
 
   if (hasGoldStar) {

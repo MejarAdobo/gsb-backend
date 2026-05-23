@@ -1,4 +1,6 @@
 import { db } from "@db";
+import { hourlyData } from "@db/schema";
+import { lt } from "drizzle-orm";
 
 import type { StreakRow, GoldStarRow } from "./helper";
 
@@ -115,4 +117,14 @@ export async function updateStationsGoldStar() {
   });
 
   await Promise.all(tasks);
+}
+
+// delete hourData record that are older than 24 hours
+export async function deleteOldHourlyData() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  await db.delete(hourlyData).where(lt(hourlyData.recordedAt, today));
+
+  console.log(`Deleted hourly data older than ${today.toISOString()}`);
 }
