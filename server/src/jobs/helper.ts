@@ -1,7 +1,9 @@
-import { fetchHTML } from "./scraper";
-import { parseHTML } from "./parser";
-import type { GoldStarStatus } from "./sendData";
 import { db } from "@db";
+
+import type { GoldStarStatus } from "./sendData";
+
+import { parseHTML } from "./parser";
+import { fetchHTML } from "./scraper";
 
 // types
 export type StreakRow = {
@@ -112,7 +114,13 @@ const changeStreak = (hasGoldStar: boolean, streakRow: StreakRow) => {
     }
   }
 
-  return { currentStreak, longestHotStreak, longestHotYearlyStreak, longestColdStreak, longestColdYearlyStreak };
+  return {
+    currentStreak,
+    longestHotStreak,
+    longestHotYearlyStreak,
+    longestColdStreak,
+    longestColdYearlyStreak,
+  };
 };
 
 // get today status

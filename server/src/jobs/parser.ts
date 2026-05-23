@@ -2,9 +2,7 @@ import * as cheerio from "cheerio";
 
 export async function parseHTML(html: string) {
   const $ = cheerio.load(html);
-
   // get all the current condition
-
   // temp
   const tempSpan = $("span.wu-unit-temperature");
   const tempText = tempSpan.find("span.wu-value").text();
@@ -40,9 +38,12 @@ export async function parseHTML(html: string) {
   // gold star
   let haveGoldStar = false;
 
-  if ($("img.goldstar-station")) {
+  if ($("img.goldstar-station").length > 0) {
     haveGoldStar = true;
   }
+  console.log(
+    `temp: ${tempText}, wind: ${windText}, gust: ${gustText}, windDir: ${winDirText}, dew: ${dewText}, precipRate: ${precipRateText}, precipAccum: ${precipAccumText}, pressure: ${pressureText}, humidity: ${humidityText}, hasGoldStar: ${haveGoldStar}`,
+  );
 
   return {
     temp: tempText,

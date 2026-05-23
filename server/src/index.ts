@@ -4,6 +4,14 @@ import { Hono } from "hono";
 import { rateLimiter } from "hono-rate-limiter";
 import { cors } from "hono/cors";
 import { prettyJSON } from "hono/pretty-json";
+import { gatherHourlyData, gatherDailyData, updateStationsStreak, updateStationsGoldStar } from "@jobs";
+
+// scheduled jobs
+Bun.cron("*/2 * * * *", gatherHourlyData);
+Bun.cron("@hourly", gatherHourlyData);
+Bun.cron("50 23 * * * ", gatherDailyData);
+Bun.cron("55 23 * * * ", updateStationsStreak);
+Bun.cron("55 23 * * * ", updateStationsGoldStar);
 
 const app = new Hono();
 
@@ -41,6 +49,7 @@ app.notFound((c) => {
 });
 
 export default {
-  port: honoConfig.port,
+  port: honoConfig.port || 3000,
+  hostname: "0.0.0.0",
   fetch: app.fetch,
 };
