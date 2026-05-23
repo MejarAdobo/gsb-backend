@@ -21,7 +21,7 @@ export const goldStars = pgTable(
       .references(() => stations.id, { onDelete: "cascade" }),
     totalGoldStars: integer().notNull().default(0),
     totalYearlyGoldStars: integer().notNull().default(0),
-    lastDaySinceGoldStar: date().defaultNow(),
+    lastDaySinceGoldStar: date(),
     createdAt: date().notNull().defaultNow(),
   },
   (table) => [index("gold_stars_station_id_idx").on(table.stationId)],

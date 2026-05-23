@@ -20,7 +20,7 @@ export type GoldStarRow = {
   stationId: number;
   totalGoldStars: number;
   totalYearlyGoldStars: number;
-  lastDaySinceGoldStar: Date;
+  lastDaySinceGoldStar: Date | null;
   createdAt: Date;
 };
 
@@ -68,6 +68,10 @@ const grantStatus = async (id: number, hasGoldStar: boolean) => {
         todayStatus = "none";
       }
     }
+  } else {
+    if (hasGoldStar) {
+      todayStatus = "gain";
+    }
   }
 
   return todayStatus;
@@ -106,9 +110,9 @@ const changeStreak = (hasGoldStar: boolean, streakRow: StreakRow) => {
     }
 
     // do the same thing as the longest hot streak section
-    if (currentStreak > longestColdYearlyStreak) {
+    if (currentStreak < longestColdYearlyStreak) {
       longestColdYearlyStreak = currentStreak;
-      if (longestColdYearlyStreak > longestColdStreak) {
+      if (longestColdYearlyStreak < longestColdStreak) {
         longestColdStreak = longestColdYearlyStreak;
       }
     }
@@ -142,7 +146,7 @@ const getTodayStatus = async (id: number) => {
 const changeGoldStar = async (hasGoldStar: boolean, goldStarRow: GoldStarRow, id: number) => {
   let totalGoldStars = goldStarRow?.totalGoldStars ?? 0;
   let totalYearlyGoldStars = goldStarRow?.totalYearlyGoldStars ?? 0;
-  let lastDaySinceGoldStar = goldStarRow?.lastDaySinceGoldStar;
+  let lastDaySinceGoldStar = goldStarRow?.lastDaySinceGoldStar ? new Date(goldStarRow.lastDaySinceGoldStar) : null;
   const todayStatus = await getTodayStatus(id);
 
   if (hasGoldStar) {
@@ -154,6 +158,8 @@ const changeGoldStar = async (hasGoldStar: boolean, goldStarRow: GoldStarRow, id
     lastDaySinceGoldStar = new Date();
   } else if (todayStatus === "gain" || todayStatus === "maintain") {
     lastDaySinceGoldStar = new Date();
+  } else if (todayStatus === "none" && !goldStarRow?.lastDaySinceGoldStar) {
+    lastDaySinceGoldStar = null;
   }
 
   return { totalGoldStars, totalYearlyGoldStars, lastDaySinceGoldStar };

@@ -28,14 +28,14 @@ export async function updateGoldStar(
   stationId: number,
   totalGoldStars: number,
   totalYearlyGoldStars: number,
-  lastDaySinceGoldStar: Date,
+  lastDaySinceGoldStar: Date | null,
 ) {
   return await db
     .update(goldStars)
     .set({
       totalGoldStars: totalGoldStars,
       totalYearlyGoldStars: totalYearlyGoldStars,
-      lastDaySinceGoldStar: lastDaySinceGoldStar.toISOString(),
+      lastDaySinceGoldStar: lastDaySinceGoldStar?.toISOString() ?? null,
     })
     .where(eq(goldStars.stationId, stationId));
 }
