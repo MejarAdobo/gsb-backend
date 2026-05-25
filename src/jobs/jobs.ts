@@ -101,7 +101,11 @@ export async function updateStationsGoldStar() {
     const parsedData = await getParsedData(station.wuId);
 
     if (parsedData) {
-      const updatedGoldStar = await changeGoldStar(parsedData.hasGoldStar, stationGoldStar, station.id);
+      const updatedGoldStar = await changeGoldStar(
+        parsedData.hasGoldStar,
+        stationGoldStar,
+        station.id,
+      );
       await updateGoldStar(
         station.id,
         updatedGoldStar.totalGoldStars,
@@ -120,6 +124,7 @@ export async function updateStationsGoldStar() {
 }
 
 // delete hourData record that are older than 24 hours
+// doing these so the db is not gonna be full since Im using free plan in supabase
 export async function deleteOldHourlyData() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);

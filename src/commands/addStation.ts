@@ -25,11 +25,16 @@ const addStation = async () => {
     .values({ name: namePrompt, wuId: wuIdPrompt })
     .returning({ id: stations.id });
 
+  console.log(`\nStation ${namePrompt} (WU ID: ${wuIdPrompt}) has been added successfully.`);
+
   // create streak and gold star row for this station
   await db.insert(goldStars).values({ stationId: station.id });
+
+  console.log(`\nStation ${namePrompt}: streak row created`);
+
   await db.insert(streaks).values({ stationId: station.id });
 
-  console.log(`Station ${namePrompt} (WU ID: ${wuIdPrompt}) has been added successfully.`);
+  console.log(`\nStation ${namePrompt}: gold star row created`);
 };
 
 addStation();
