@@ -101,7 +101,11 @@ export async function updateStationsGoldStar() {
     const parsedData = await getParsedData(station.wuId);
 
     if (parsedData) {
-      const updatedGoldStar = await changeGoldStar(parsedData.hasGoldStar, stationGoldStar, station.id);
+      const updatedGoldStar = await changeGoldStar(
+        parsedData.hasGoldStar,
+        stationGoldStar,
+        station.id,
+      );
       await updateGoldStar(
         station.id,
         updatedGoldStar.totalGoldStars,

@@ -1,9 +1,6 @@
 {
   "compilerOptions": {
     "strict": true,
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
     "types": ["@types/bun"],
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -17,7 +14,7 @@
       "@services": ["./src/services"],
       "@db": ["./src/db"],
       "@db/*": ["./src/db/*"],
-      "@jobs": ["./src/jobs"]
-    }
-  }
+      "@jobs": ["./src/jobs"],
+    },
+  },
 }
