@@ -49,4 +49,4 @@ Made this since I want to try to make a scraper app in JavaScript and also remem
 - http://localhost/api/streaks
 - http://localhost/api/streaks/:id
 
-**Go to my website to check it out:** [url](https://gsb.mejaresebes.com)
+**Go to my website to check it out:** [url](https://gsb.mejaresebes.com/api/stations)
