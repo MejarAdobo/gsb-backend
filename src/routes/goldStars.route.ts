@@ -26,37 +26,6 @@ goldStarRouter.get("/", async (c) => {
   }
 });
 
-goldStarRouter.get("/station/:id", async (c) => {
-  try {
-    const id = Number(c.req.param("id"));
-
-    // check if id exist
-    if (!id) {
-      throw new HTTPException(400, { message: "ID is required" });
-    }
-
-    // validate id
-    if (!idRegex.test(id.toString())) {
-      throw new HTTPException(400, { message: "Invalid ID" });
-    }
-
-    const goldStars = await goldStarsService.getAllByStation(id);
-
-    // no gold stars for this station
-    if (!goldStars) {
-      throw new HTTPException(404, { message: "No gold stars found for station ID" });
-    }
-
-    return c.json({ data: goldStars }, 200);
-  } catch (error) {
-    if (error instanceof HTTPException) {
-      return c.json({ error: error.message });
-    } else {
-      return c.json({ error: "An unknown error occurred" });
-    }
-  }
-});
-
 goldStarRouter.get("/:id", async (c) => {
   try {
     const id = Number(c.req.param("id"));
