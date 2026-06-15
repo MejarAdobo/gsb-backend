@@ -44,7 +44,7 @@ async function getOne(id: number) {
   try {
     const goldStars = await db.query.goldStars.findMany({
       where: {
-        id: id,
+        stationId: id,
       },
       with: {
         station: true,

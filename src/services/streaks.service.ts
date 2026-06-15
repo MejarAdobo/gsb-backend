@@ -44,7 +44,7 @@ async function getOne(id: number) {
   try {
     const streak = await db.query.streaks.findMany({
       where: {
-        id: id,
+        stationId: id,
       },
       with: {
         station: true,
